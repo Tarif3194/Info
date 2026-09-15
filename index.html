@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A Hello Kitty Love Note</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: Georgia, serif; margin: 0; color: #3b1734; }
+    section { min-height: 100vh; display: grid; place-items: center; padding: 32px; box-sizing: border-box; }
+    .card { max-width: 720px; padding: 42px; border: 2px solid #e9a6bc; border-radius: 24px; background: rgba(255, 255, 255, .9); box-shadow: 0 18px 50px rgba(117, 35, 83, .14); text-align: center; }
+    .page-one, .page-two { position: relative; overflow: hidden; background-color: #ffc9dd; background-image: radial-gradient(#fff 3px, transparent 4px), radial-gradient(#f08caf 3px, transparent 4px); background-position: 0 0, 24px 24px; background-size: 48px 48px; }
+    .page-one::before, .page-two::before { content: 'Hello Kitty'; position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255, 255, 255, .45); font-family: Arial, sans-serif; font-size: clamp(4rem, 15vw, 10rem); font-weight: bold; transform: rotate(-12deg); pointer-events: none; }
+    .card { position: relative; z-index: 1; }
+    h1, h2 { color: #a32962; margin-top: 0; }
+    h1 { font-size: clamp(2.4rem, 8vw, 5rem); margin-bottom: 12px; }
+    h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+    p { font-size: 1.2rem; line-height: 1.7; }
+    .shayari { font-style: italic; font-size: 1.35rem; line-height: 1.9; margin: 28px auto; max-width: 580px; }
+    .button { display: inline-block; border: 0; border-radius: 999px; padding: 14px 24px; margin: 8px; background: #a32962; color: white; font: inherit; font-weight: bold; cursor: pointer; text-decoration: none; }
+    .button:hover { background: #7d1d4a; transform: translateY(-2px); }
+    .button.secondary { background: #f3b7c9; color: #54203e; }
+    .question-box { position: relative; min-height: 150px; margin: 12px auto; max-width: 500px; }
+    .question-box .button { margin-top: 62px; }
+    .no-button { position: absolute; left: 55%; top: 62px; transition: left .2s ease, top .2s ease; }
+    #answer { min-height: 1.8em; color: #a32962; font-weight: bold; }
+  </style>
+</head>
+<body id="top">
+  <section class="page-one">
+    <div class="card">
+      <p>Hello Kitty has delivered an important message</p>
+      <h1>My Favorite Person</h1>
+      <p>You make ordinary days feel pink, sparkly, and impossible not to smile about. This little love note is brought to you with maximum cuteness and minimum seriousness.</p>
+      <p class="shayari">Tumhari muskurahat ka koi jawab nahi,<br>
+        Tum se khoobsurat is duniya mein koi khwab nahi.<br>
+        Meri duniya tum se roshan hai,<br>
+        Aur meri date kabhi cancel na ho, please ji!</p>
+      <p><strong>I love you in the most official, scientifically unprovable way.</strong></p>
+      <p>Will you go on a date with me?</p>
+      <div class="question-box" data-question="date">
+        <button class="button" type="button">Yes</button>
+        <button class="button secondary no-button" type="button">No</button>
+      </div>
+      <p class="answer" aria-live="polite"></p>
+      <a class="button secondary" href="#page-two">Next question</a>
+    </div>
+  </section>
+
+  <section id="page-two" class="page-two">
+    <div class="card">
+      <h2>One Last Question</h2>
+      <p class="shayari">I = Infinite smiles when I see you<br>
+        L = Lots of laughter because of you<br>
+        O = Only you make ordinary days special<br>
+        V = Very lucky to have you<br>
+        E = Every birthday is better with you</p>
+      <p><strong>Short version: I &lt;3 you.</strong></p>
+      <p>Since you are my favorite person and my best decision, will you marry me?</p>
+      <div class="question-box" data-question="marriage">
+        <button class="button" type="button">Yes</button>
+        <button class="button secondary no-button" type="button">No</button>
+      </div>
+      <p class="answer" aria-live="polite"></p>
+      <a class="button secondary" href="#top">Start again</a>
+    </div>
+  </section>
+  <script>
+    document.querySelectorAll('.question-box').forEach((questionBox) => {
+      const yesButton = questionBox.querySelector('.button:not(.no-button)');
+      const noButton = questionBox.querySelector('.no-button');
+      const answer = questionBox.nextElementSibling;
+      yesButton.addEventListener('click', () => {
+        answer.textContent = questionBox.dataset.question === 'date'
+          ? 'Date accepted! I will bring the jokes; you bring that smile.'
+          : 'Best answer ever. I love you more than free food and that is serious.';
+      });
+      const moveNoButton = () => {
+        const maxLeft = Math.max(0, questionBox.clientWidth - noButton.offsetWidth);
+        const maxTop = Math.max(0, questionBox.clientHeight - noButton.offsetHeight);
+        noButton.style.left = `${Math.floor(Math.random() * (maxLeft + 1))}px`;
+        noButton.style.top = `${Math.floor(Math.random() * (maxTop + 1))}px`;
+        answer.textContent = 'The No button is shy and has run away!';
+      };
+      noButton.addEventListener('mouseenter', moveNoButton);
+      noButton.addEventListener('focus', moveNoButton);
+      noButton.addEventListener('touchstart', moveNoButton, { passive: true });
+    });
+  </script>
+</body>
+</html>
